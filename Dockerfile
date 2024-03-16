@@ -14,11 +14,13 @@ FROM alpine as runner
 
 RUN apk add --no-cache gcompat jq
 
-WORKDIR /app
-
-VOLUME ["/app"]
-
 EXPOSE 8080
+
+ENV CADDYPATH /var/cells/certs 
+ENV CELLS_WORKING_DIR /var/cells
+
+WORKDIR $CELLS_WORKING_DIR
+VOLUME ["$CELLS_WORKING_DIR"]
 
 COPY --from=builder /bin/cells /bin/cells
 COPY --from=builder /bin/start.sh /bin/start.sh
